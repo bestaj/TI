@@ -1,25 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="570.0" prefWidth="525.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.MainController">
    <center>
       <VBox alignment="TOP_CENTER" fillWidth="false" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <Label alignment="TOP_CENTER" prefHeight="33.0" prefWidth="92.0" text="Kodér">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
                <VBox.margin>
-                  <Insets bottom="10.0" top="10.0" />
+                  <Insets bottom="5.0" top="10.0" />
                </VBox.margin>
             </Label>
             <TextField fx:id="kodVstupTF" alignment="CENTER" focusTraversable="false" prefHeight="31.0" prefWidth="126.0" promptText="############">
@@ -32,14 +34,20 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Label>
-            <Button fx:id="kodujBtn" mnemonicParsing="false" onAction="#koduj" text="Zakóduj">
+            <Button fx:id="kodujBtn" alignment="CENTER" mnemonicParsing="false" onAction="#koduj" style="-fx-text-fill: white; -fx-background-color: black;" text="Zakóduj">
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets bottom="5.0" />
                </VBox.margin>
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </Button>
-            <Label fx:id="kodVystupLbl" alignment="CENTER" prefHeight="21.0" prefWidth="228.0">
+            <Label fx:id="kodVystupLbl" alignment="CENTER" prefHeight="21.0" prefWidth="260.0">
                <VBox.margin>
-                  <Insets bottom="10.0" />
+                  <Insets bottom="5.0" />
                </VBox.margin>
             </Label>
             <Pane prefHeight="120.0" prefWidth="325.0" style="-fx-border-color: black; -fx-border-width: 2; -fx-background-color: white;">
@@ -50,11 +58,39 @@
                   <Insets bottom="20.0" />
                </VBox.margin>
             </Pane>
-            <Label alignment="TOP_CENTER" prefHeight="33.0" prefWidth="92.0" text="Dekodér">
+            <Label alignment="CENTER" prefHeight="35.0" prefWidth="104.0" text="Dekodér">
                <font>
-                  <Font size="24.0" />
+                  <Font name="System Bold" size="24.0" />
                </font>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
             </Label>
+            <TextField fx:id="dekodVstupTF" alignment="CENTER" focusTraversable="false" prefHeight="31.0" prefWidth="466.0" promptText="####################################################################################">
+               <font>
+                  <Font size="9.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </TextField>
+            <Button fx:id="dekodujBtn" mnemonicParsing="false" onAction="#dekoduj" style="-fx-text-fill: white; -fx-background-color: black;" text="Dekóduj">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Button>
+            <Label fx:id="dekodVystupLbl" alignment="CENTER" prefHeight="21.0" prefWidth="273.0">
+               <VBox.margin>
+                  <Insets bottom="5.0" />
+               </VBox.margin>
+            </Label>
+            <TextArea fx:id="dekodErrorTA" editable="false" focusTraversable="false" prefHeight="107.0" prefWidth="371.0" visible="false" />
          </children>
       </VBox>
    </center>
