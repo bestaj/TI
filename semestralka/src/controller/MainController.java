@@ -4,45 +4,61 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 import data.Coder;
+import data.Decoder;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class MainController implements Initializable {
 
 	@FXML
-	private TextField kodVstupTF;
+	private TextField kodVstupTF, dekodVstupTF;
 	@FXML
-	private Label kodVstupLbl, kodVystupLbl;
+	private TextArea dekodErrorTA;
 	@FXML
-	private Button kodujBtn;
+	private Label kodVstupLbl, kodVystupLbl, dekodVystupLbl;
+	@FXML
+	private Button kodujBtn, dekodujBtn;
 	@FXML
 	private Canvas platno;
 	
 	private GraphicsContext gc;
+	private Coder cod;
+	private Decoder decod;
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		cod = new Coder();
+		decod = new Decoder();
 		kodujBtn.setDisable(true);
+		dekodujBtn.setDisable(true);
 		kodVstupLbl.setText("Zadejte 12 èíslic 0-9");
-			kodVstupTF.setOnKeyReleased(e -> {
-				
-				if (kodVstupTF.getLength() == 12) {
-					if (jeSpravnaHodnota()) {
-						kodujBtn.setDisable(false);
-						kodVstupLbl.setText("");
-					}
+		kodVstupTF.setOnKeyReleased(e -> {
+			
+			if (kodVstupTF.getLength() == 12) {
+				if (jeSpravnaHodnota()) {
+					kodujBtn.setDisable(false);
+					kodVstupLbl.setText("");
 				}
-				else {
-					kodujBtn.setDisable(true);
-					kodVstupLbl.setText("Zadejte 12 èíslic 0-9");
-				}
-			});
-		
+			}
+			else {
+				kodujBtn.setDisable(true);
+				kodVstupLbl.setText("Zadejte 12 èíslic 0-9");
+			}
+		});
+		dekodVstupTF.setOnKeyReleased(e -> {
+			if (dekodVstupTF.getLength() == 84) {
+				dekodujBtn.setDisable(false);
+			}
+			else {
+				dekodujBtn.setDisable(true);
+			}
+		});
 	}
 	
 	private boolean jeSpravnaHodnota() {
@@ -58,10 +74,13 @@ public class MainController implements Initializable {
 	}
 	
 	@FXML
-	public void koduj() {
-		Coder cod = new Coder(kodVstupTF.getText());
+	private void koduj() {
+		cod.setData(kodVstupTF.getText());
 		kodVystupLbl.setText(cod.toString());
 		zobrazKod(cod.getBinVystup());
+		dekodVstupTF.clear();
+		dekodVstupTF.setText(cod.getBinVystup());
+		dekodujBtn.setDisable(false);
 	}
 
 	private void zobrazKod(String binCod) {
@@ -108,5 +127,19 @@ public class MainController implements Initializable {
 			x += 3;
 		}
 		
+	}
+	
+	@FXML
+	private void dekoduj() {
+		decod.setData(dekodVstupTF.getText());
+		dekodVystupLbl.setText("");
+		dekodVystupLbl.setText(decod.toString());
+		if (decod.chybneDekodovani()) {
+			dekodErrorTA.setVisible(true);
+			dekodErrorTA.setText(decod.chybovyVypis());
+		}
+		else {
+			dekodErrorTA.setVisible(false);
+		}
 	}
 }
