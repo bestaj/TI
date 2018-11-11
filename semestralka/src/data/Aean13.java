@@ -2,6 +2,14 @@ package data;
 
 import java.util.HashMap;
 
+/**
+ * Abstraktni trida {@code Aean13} slouzici pro ulozeni 
+ * jednotlivych kodovacich sad A, B, C a pro tabulku 
+ * s kombinacemi pouziti sad A, B na prvnich sest znaku v kodu. 
+ * 
+ * @author Jiri Besta, Jan Matusik
+ * @version 1.00
+ */
 public abstract class Aean13 {
 
 	protected static final HashMap<Integer, String> kombinaceSad;
