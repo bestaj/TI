@@ -14,6 +14,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
+/**
+ * Trida {@code MainController} se stara o veskerou
+ * funkcionalitu uzivatelskeho rozhrani
+ *  
+ * @author Jiri Besta, Jan Matusik
+ * @version 1.00
+ */
 public class MainController implements Initializable {
 
 	@FXML
@@ -31,6 +38,7 @@ public class MainController implements Initializable {
 	private Coder cod;
 	private Decoder decod;
 	
+	/** Inicializuje gui */
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		cod = new Coder();
@@ -39,7 +47,7 @@ public class MainController implements Initializable {
 		dekodujBtn.setDisable(true);
 		kodVstupLbl.setText("Zadejte 12 èíslic 0-9");
 		kodVstupTF.setOnKeyReleased(e -> {
-			
+			// Testuje spravnou delku vstupniho retezce pro kodovani
 			if (kodVstupTF.getLength() == 12) {
 				if (jeSpravnaHodnota()) {
 					kodujBtn.setDisable(false);
@@ -61,6 +69,12 @@ public class MainController implements Initializable {
 		});
 	}
 	
+	/**
+	 * Testuje, zda je korektni vstup pro kodovani
+	 * Otestuje, zda jsou vsechny zadane znaky cislice
+	 * 
+	 * @return true, pokud je vstupni retezec akceptovan, false pokud neni
+	 */
 	private boolean jeSpravnaHodnota() {
 		String text = kodVstupTF.getText();
 		
@@ -73,6 +87,11 @@ public class MainController implements Initializable {
 		return true;
 	}
 	
+	/**
+	 * Provede kodovani vstupniho retezce do caroveho kodu EAN-13.
+	 * Spocte kontrolni cislici a vykresli carovy kod 
+	 * a prevede carovy kod do binarni podoby, ktery pak umisti na vstup pro dekodovani
+	 */
 	@FXML
 	private void koduj() {
 		cod.setData(kodVstupTF.getText());
@@ -83,6 +102,11 @@ public class MainController implements Initializable {
 		dekodujBtn.setDisable(false);
 	}
 
+	/**
+	 * Metoda se stara o vykresleni caroveho kodu EAN-13
+	 * @param binCod, retezec binarnich cislic, ktery reprezentuje carovy kod, 
+	 * 1 - cerna cara, 0 - bila mezera
+	 */
 	private void zobrazKod(String binCod) {
 		gc = platno.getGraphicsContext2D();
 		String okrajoveZnaky = "101";
@@ -126,9 +150,13 @@ public class MainController implements Initializable {
 			}
 			x += 3;
 		}
-		
 	}
 	
+	/**
+	 * Provede dekodovani caroveho kodu
+	 * a detekuje pripadne chyby.
+	 * Detekovane chyby vypise.
+	 */
 	@FXML
 	private void dekoduj() {
 		decod.setData(dekodVstupTF.getText());

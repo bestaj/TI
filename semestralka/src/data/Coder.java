@@ -1,12 +1,26 @@
 package data;
 
+/**
+ * Trida {@code Coder} reprezentuje koder, 
+ * ktery se stara o samotne zakodovani do caroveho kodu
+ * a spocteni kontrolni cislice.
+ *  
+ * @author Jiri Besta, Jan Matusik
+ * @version 1.00
+ */
 public class Coder extends Aean13 {
-		
+	// Pole prvnich 12 znaku v kodu
 	private byte[] vstup = new byte[12];
 	private byte kontrolniCislice;
+	// Vsech 13 cislic kodu
 	private String vystup;
+	// Kod v binarni podobe 
 	private String binVystup;
 	
+	/**
+	 * Provede zakodovani do caroveho kodu EAN-13
+	 * @param vstup, 12 vstupnich cislic
+	 */
 	@Override
 	public void setData(String vstup) {
 		vystup = "";
@@ -23,10 +37,17 @@ public class Coder extends Aean13 {
 		binarniVystup();
 	}
 	
+	/**
+	 * Vrati carovy kod v binarni podobe
+	 * @return binarni kod
+	 */
 	public String getBinVystup() {
 		return this.binVystup;
 	}
 	
+	/**
+	 * Spocte kontrolni cislici
+	 */
 	public void kontrolniCislice() {
 		int soucetSudychPozic = 0;
 		int soucetLichychPozic = 0;
@@ -45,6 +66,9 @@ public class Coder extends Aean13 {
 		this.kontrolniCislice = (byte)(zaokrouhleno - celkovySoucet);
 	}
 	
+	/**
+	 * Zjisti binarni podobu kodu
+	 */
 	private void binarniVystup() {
 		String sady = kombinaceSad.get((int)vstup[0]);
 
@@ -64,6 +88,9 @@ public class Coder extends Aean13 {
 		binVystup += sadaC.get((int)kontrolniCislice);
 	}
 	
+	/**
+	 * Vrati vysledny kod (decimalne)
+	 */
 	@Override
 	public String toString() {
 		return vystup;
