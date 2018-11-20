@@ -1,5 +1,6 @@
 package data;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -16,21 +17,28 @@ public class Decoder extends Aean13 {
 	private String vstup;
 	private String vystup;
 	private boolean chyba;
+	// Indikuje, zda je na vstupu spravna kontrolni cislice
+	private boolean nespravnaKontrolniCislice;
+	// Seznam chyb, ktere nastaly behem dekodovani
 	private String vypisChyb;
-	private byte prvniCislice;
+	// Spravna kontrolni cislice
+	private byte kontCislice;
+	private byte[] vystupniCislice = new byte[13];
 	// Pole znaku zakodovanych binarne
-	private String[] binZnaky = new String [12];
+	private String[] binZnaky = new String[12];;
 	private boolean[] chybneZnaky;
 	
 	/**
 	 * Provede dekodovani vstupniho retezce
-	 * @vstup vstupni binarni retezec (12 cislic)
+	 * @vstup vstupni binarni retezec 84bin. cislic (7bin = 1dec)
 	 */
 	@Override
 	public void setData(String vstup) {
 		vystup = "";
 		vypisChyb = "";
+		int cislo;
 		chyba = false;
+		nespravnaKontrolniCislice = false;
 		chybneZnaky = new boolean[12];
 		this.vstup = vstup;
 		int subStart = 0;
@@ -45,8 +53,8 @@ public class Decoder extends Aean13 {
 	
 		String sady = getKombinaceSad();
 		if (kombinaceSad.containsValue(sady)) {
-			prvniCislice = (byte)getKeyByValue(kombinaceSad, sady);
-			vystup += prvniCislice + " ";
+			vystupniCislice[0] = (byte)getKeyByValue(kombinaceSad, sady);
+			vystup += vystupniCislice[0] + " ";
 		}
 		else {
 			vypisChyb += "Chyba: vstupu neodpovídá žádná kombinace sad\n";
@@ -61,22 +69,36 @@ public class Decoder extends Aean13 {
 				}
 				else {
 					if (sady.charAt(j) == 'a') {
-						vystup += getKeyByValue(sadaA, binZnaky[j]) + " ";
+						cislo = getKeyByValue(sadaA, binZnaky[j]);
+						vystup += cislo + " ";
+						vystupniCislice[j+1] = (byte)cislo;
 					}
 					else {
-						vystup += getKeyByValue(sadaB, binZnaky[j]) + " ";
+						cislo = getKeyByValue(sadaB, binZnaky[j]);
+						vystup += cislo + " ";
+						vystupniCislice[j+1] = (byte)cislo;
 					}
 				}	
 			}
 			else {
 				if (sadaC.containsValue(binZnaky[j])) {
-					vystup += getKeyByValue(sadaC, binZnaky[j]) + " ";
+					cislo = getKeyByValue(sadaC, binZnaky[j]);
+					vystup += cislo + " ";
+					vystupniCislice[j+1] = (byte)cislo;
 				}
 				else {
 					chyba = true;
 					chybneZnaky[j] = true;
 					vystup += "? ";
 				}
+			}
+		}
+		// pokud vsechny znaky na vstupu jsou z jednotlivych sad, 
+		// tak se jeste overi kontrolni cislice
+		if (!chyba) {
+			kontCislice = kontrolniCislice(Arrays.copyOf(vystupniCislice, 12));
+			if (kontCislice != vystupniCislice[12]) {
+				nespravnaKontrolniCislice = true;
 			}
 		}
 	}
@@ -124,6 +146,13 @@ public class Decoder extends Aean13 {
 	public boolean chybneDekodovani() {
 		return chyba;
 	}
+	
+	/** Vraci true, pokud je na vstupu chybna kontrolni cislice a naopak
+	 * @return nespravnaKontrolniCislice, true je chybna, false je spravna
+	 */
+	public boolean chybnaKontrolniCislice() {
+		return nespravnaKontrolniCislice;
+	}
 
 	/** 
 	 * Vraci seznam chyb
@@ -136,6 +165,10 @@ public class Decoder extends Aean13 {
 			}
 		}
 		return vypisChyb;
+	}
+	
+	public String getSpravnaKontrolniCislice() {
+		return (kontCislice + " (" + sadaC.get((int)kontCislice) + ")");
 	}
 	
 	/**

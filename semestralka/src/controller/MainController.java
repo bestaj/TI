@@ -161,13 +161,19 @@ public class MainController implements Initializable {
 	private void dekoduj() {
 		decod.setData(dekodVstupTF.getText());
 		dekodVystupLbl.setText("");
-		dekodVystupLbl.setText(decod.toString());
-		if (decod.chybneDekodovani()) {
+		if (decod.chybnaKontrolniCislice()) {
 			dekodErrorTA.setVisible(true);
-			dekodErrorTA.setText(decod.chybovyVypis());
+			dekodErrorTA.setText("Neplatná kontrolní èíslice na vstupu.\nPoslední èíslice musí být " + decod.getSpravnaKontrolniCislice() + ".");
 		}
 		else {
-			dekodErrorTA.setVisible(false);
+			dekodVystupLbl.setText(decod.toString());
+			if (decod.chybneDekodovani()) {
+				dekodErrorTA.setVisible(true);
+				dekodErrorTA.setText(decod.chybovyVypis());
+			}
+			else {
+				dekodErrorTA.setVisible(false);
+			}
 		}
 	}
 }
