@@ -36,8 +36,8 @@ public class Main extends Application {
 		window.setTitle("EAN-13");
 		window.setMinWidth(520);
 		window.setMinHeight(650);
-		window.getIcons().add(new Image(getClass().getResourceAsStream("/images/bar-code.png")));
-		Parent root = FXMLLoader.load(getClass().getResource("fxml/Main.fxml"));
+		window.getIcons().add(new Image(getClass().getResourceAsStream("bar-code.png")));
+		Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
 		window.setScene(new Scene(root));
 		window.show();
 	}
