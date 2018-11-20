@@ -72,4 +72,24 @@ public abstract class Aean13 {
 	
 	public abstract String toString();
 	
+	/**
+	 * Spocte kontrolni cislici
+	 */
+	public byte kontrolniCislice(byte[] vstup) {
+		int soucetSudychPozic = 0;
+		int soucetLichychPozic = 0;
+		
+		for (int i = 0; i < vstup.length; i++) {
+			if (i % 2 == 0) {
+				soucetLichychPozic += vstup[i];
+			}
+			else {
+				soucetSudychPozic += vstup[i];
+			}
+		}
+		int pomSudych = soucetSudychPozic * 3;
+		int celkovySoucet = pomSudych + soucetLichychPozic;
+		int zaokrouhleno = (int)(Math.ceil(celkovySoucet / 10.0) * 10);
+		return (byte)(zaokrouhleno - celkovySoucet);
+	}
 }
