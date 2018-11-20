@@ -28,12 +28,14 @@ public class Coder extends Aean13 {
 		for (int i = 0; i < vstup.length(); i++) {
 			this.vstup[i] = Byte.parseByte(String.valueOf(vstup.charAt(i)));
 		}
-		kontrolniCislice();
+		
 		
 		for (int j = 0; j < vstup.length(); j++) {
 			vystup += this.vstup[j] + " ";
 		}
+		kontrolniCislice = kontrolniCislice(this.vstup); 
 		vystup += kontrolniCislice;
+		
 		binarniVystup();
 	}
 	
@@ -43,27 +45,6 @@ public class Coder extends Aean13 {
 	 */
 	public String getBinVystup() {
 		return this.binVystup;
-	}
-	
-	/**
-	 * Spocte kontrolni cislici
-	 */
-	public void kontrolniCislice() {
-		int soucetSudychPozic = 0;
-		int soucetLichychPozic = 0;
-		
-		for (int i = 0; i < vstup.length; i++) {
-			if (i % 2 == 0) {
-				soucetLichychPozic += vstup[i];
-			}
-			else {
-				soucetSudychPozic += vstup[i];
-			}
-		}
-		int pomSudych = soucetSudychPozic * 3;
-		int celkovySoucet = pomSudych + soucetLichychPozic;
-		int zaokrouhleno = (int)(Math.ceil(celkovySoucet / 10.0) * 10);
-		this.kontrolniCislice = (byte)(zaokrouhleno - celkovySoucet);
 	}
 	
 	/**

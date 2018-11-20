@@ -85,7 +85,7 @@
                   <Insets bottom="5.0" />
                </VBox.margin>
             </Button>
-            <Label fx:id="dekodVystupLbl" alignment="CENTER" prefHeight="21.0" prefWidth="273.0">
+            <Label fx:id="dekodVystupLbl" alignment="CENTER" prefHeight="21.0" prefWidth="457.0">
                <VBox.margin>
                   <Insets bottom="5.0" />
                </VBox.margin>
